@@ -1,0 +1,65 @@
+syntax="proto3";
+
+package genproto;
+option go_package="genproto/user_service";
+import "google/protobuf/wrappers.proto";
+
+message GetMenuResponse {
+    string menu_id=1;
+    string title = 2;
+    string shipper_id=3;
+    repeated Products products = 4;
+}
+
+message MenuRequest{
+    string title=1;
+    string shipper_id=2;
+    repeated Products products = 3;
+}
+
+message UpdateMenuReqest{
+    string menu_id=1;
+    string title=2;
+    repeated Products products = 3;
+    string shipper_id=4;
+}
+
+message GetMenu {
+    string menu_id=1;
+    string shipper_id=2;
+}
+
+message MenuId{
+    string menu_id=1;
+}
+
+message Products {
+    string product_id = 1;
+    bool is_active=2;
+    Language title =3;
+    google.protobuf.StringValue temporarily_inactive_time = 4;
+}
+
+message GetAllMenusRequest{
+    uint64 page = 1;
+    uint64 limit = 2;
+    string search = 5;
+    string shipper_id = 3;
+}
+
+message GetAllMenusResponse{
+    uint64 count=1;
+    repeated GetMenuResponse menus=2;
+}
+
+message Language {
+    string uz = 1;
+    string ru = 2;
+    string en = 3;
+}
+
+
+
+
+
+

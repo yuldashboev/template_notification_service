@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package genproto;
+option go_package="genproto/user_service";
+import "google/protobuf/wrappers.proto";
+
+message BranchUser {
+    string id = 1;
+    string name = 2;
+    string phone = 3;
+    bool   is_active = 4;
+    bool   is_blocked = 5;
+    string created_at = 6;
+    string updated_at = 7;
+    string shipper_id = 8;
+    string branch_id = 9;
+    string user_role_id = 10;
+    google.protobuf.StringValue fcm_token = 11;
+    google.protobuf.StringValue platform_id = 12;
+}
+
+message GetAllPhonesRequest {
+    string shipper_id = 1;
+    string start_date = 2;
+    string end_date = 3;
+    string start_count = 4;
+    string end_count = 5;
+    string start_price  = 6;
+    string end_price = 7;
+    string search = 8;
+    bool with_self_delete = 9;
+}
+
+message GetAllPhonesResponse {
+	repeated string phones = 1;
+}
+
+message GetAllBranchUsersFcmTokensResponse {
+	repeated BranchUsersFcmTokens tokens = 1;
+}
+
+message GetAllBranchUsersFcmTokensRequest {
+    string shipper_id = 1;
+    repeated string users_ids = 2;
+}
+
+message BranchUsersFcmTokens {
+    string platform_id = 1;
+    string fcm_token = 2;
+}

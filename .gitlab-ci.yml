@@ -1,0 +1,102 @@
+include:
+  - .gitlab/ci/*.gitlab-ci.yml
+
+stages:
+  - build
+  - migrate
+  - deploy
+  - rollback
+
+build-staging:
+  stage: build
+  extends: .build_template
+  environment:
+    name: test
+    url: https://test.app.template.uz
+  variables:
+    ENV_TAG: test
+  only:
+    - staging
+
+build-prod:
+  stage: build
+  extends: .build_template
+  environment:
+    name: production
+    url: https://app.template.uz
+  variables:
+    ENV_TAG: latest
+  only:
+    - master
+
+migrate-staging:
+  stage: migrate
+  extends: .migrate_template
+  environment:
+    name: test
+    url: https://test.app.template.uz
+  variables:
+    PATH_MIGRATION: migrations
+    POSTGRES_LINK: ${template_TRACKING_SERVICE_TESTDB}
+  only:
+    - staging
+
+migrate-prod:
+  stage: migrate
+  extends: .migrate_template
+  environment:
+    name: production
+    url: https://app.template.uz
+  variables:
+    PATH_MIGRATION: migrations
+    POSTGRES_LINK: ${template_TRACKING_SERVICE_PRODDB}
+  only:
+    - master
+
+deploy-staging:
+  stage: deploy
+  extends: .deploy_template
+  environment:
+    name: test
+    url: https://test.app.template.uz
+  variables:
+    NAMESPACE: test
+    VALUES_FILE: .helm/values-test.yml
+    K8SCONFIGJSON: $template_NEW_KUBECONFIG
+  only:
+    - staging
+
+deploy-prod:
+  stage: deploy
+  extends: .deploy_template
+  environment:
+    name: production
+    url: https://app.template.uz
+  variables:
+    NAMESPACE: prod
+    VALUES_FILE: .helm/values-prod.yml
+    K8SCONFIGJSON: $template_NEW_KUBECONFIG
+  only:
+    - master
+
+rollback-staging:
+  stage: rollback
+  environment:
+    name: test
+    url: https://test.app.template.uz
+  extends: .rollback_template
+  variables:
+    NAMESPACE: test
+    K8SCONFIGJSON: $template_NEW_KUBECONFIG
+  when: manual
+
+rollback-prod:
+  stage: rollback
+  environment:
+    name: production
+    url: https://app.template.uz
+  extends: .rollback_template
+  variables:
+    NAMESPACE: prod
+    K8SCONFIGJSON: $template_NEW_KUBECONFIG
+  when: manual

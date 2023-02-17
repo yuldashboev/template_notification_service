@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package genproto;
+option go_package="genproto/user_service";
+
+message Aggregator {
+    string id = 1;
+    string name = 2;
+    string phone_number = 3;
+    string shipper_id = 4;
+}
+
+message GetAllAggregatorsResponse {
+    repeated Aggregator aggregators = 1;
+    uint64 count = 2;
+}
+
+message AggregatorId {
+    string id = 1;
+}
+
+message AggregatorInfoNamesRequest {
+    string aggregator_id = 1;
+    string operator_id = 2;
+    string branch_id = 3;
+}
+
+message AggregatorInfoNamesResponse {
+    string aggregator_name = 1;
+    string operator_name = 2;
+    string branch_name = 3;
+}

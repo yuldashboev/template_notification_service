@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package genproto;
+
+option go_package="genproto/user_service";
+
+import "google/protobuf/empty.proto";
+
+service ApelsinInfoService {
+    rpc Create(Apelsin) returns (ApelsinInfoId) {}
+    rpc Get(ApelsinInfoId) returns (Apelsin) {}
+    rpc GetAll(GetAllApelsinInfoRequest) returns (GetAllApelsinInfoResponse) {}
+    rpc Update(Apelsin) returns (google.protobuf.Empty) {}
+    rpc Delete(ApelsinInfoId) returns (google.protobuf.Empty) {}
+}
+
+message Apelsin {
+    string shipper_id = 1;
+    string cash_id = 2;
+    string created_at = 3;
+    string updated_at = 4;
+    string branch_id = 5;
+    string branch_name = 6;
+}
+
+message ApelsinInfoId {
+    string id = 1;
+    string branch_id = 2;
+}
+
+message GetAllApelsinInfoRequest {
+    string shipper_id = 1;
+    string search = 2;
+    uint64 page = 3;
+    uint64 limit = 4;
+}
+
+message GetAllApelsinInfoResponse {
+    repeated Apelsin apelsin_infos = 1;
+    uint64 count = 2;
+}

@@ -1,0 +1,181 @@
+syntax = "proto3";
+
+package genproto;
+option go_package="genproto/courier_service";
+
+import "google/protobuf/wrappers.proto";
+
+message Courier {
+    string id = 1;
+    string access_token = 2;
+    google.protobuf.StringValue distributor_id = 3;
+    string phone = 4;
+    string first_name = 5;
+    string last_name = 6;
+    string created_at = 7;
+    bool is_active = 8;
+    google.protobuf.StringValue park_id = 9;
+    google.protobuf.StringValue shipper_id = 10;
+    google.protobuf.StringValue fcm_token = 11;
+    string user_role_id = 12;
+    google.protobuf.StringValue last_seen = 13;
+    int32 max_orders_count = 14;
+    bool is_working = 15;
+    google.protobuf.StringValue courier_type_id = 16;
+    CourierType courier_type = 17;
+    string last_accept_time = 18;
+    string shipper_user_id = 19;
+    string shipper_user_name = 20;
+    uint32 total_orders_count = 21;
+    string average_delivery_time = 22;
+    double total_orders_sum = 23;
+    google.protobuf.StringValue iiko_id = 24;
+}
+
+message CourierDetails {
+    string courier_id = 1;
+    string passport_number = 2;
+    google.protobuf.StringValue gender = 3;
+    string birth_date = 4;
+    google.protobuf.StringValue address = 5;
+    google.protobuf.StringValue img = 6;
+    string lisense_number = 7;
+    string lisense_given_date = 8;
+    string lisense_expiry_date = 9;
+}
+
+message CourierVehicle {
+    string id = 1;
+    string courier_id = 2;
+    string model = 3;
+    string vehicle_number = 4;
+    string created_at = 5;
+    bool is_active = 6;
+}
+
+message CourierWorkingHours {
+    string id = 1;
+    string courier_type_id = 2;
+    int32 day_number = 3;
+    string start_time = 4;
+    string end_time = 5;
+    bool is_active = 6;
+}
+
+message CourierType {
+    string id = 1;
+    string name = 2;
+    string shipper_id = 3;
+    int64 distance_from = 4;
+    int64 distance_to = 5;
+    repeated CourierWorkingHours working_hours = 6;
+    string icon = 7;
+}
+
+message CreateCourierTypeRequest {
+    string name = 1;
+    string shipper_id = 2;
+    int64 distance_from = 3;
+    int64 distance_to = 4;
+    bool is_working = 5;
+    repeated CourierWorkingHours working_hours = 6;
+    string icon = 7;
+}
+
+message CourierTypeId {
+    string id =1;
+}
+
+message GetAllClientTypesResponse {
+    repeated CourierType courier_type = 1;
+    int64 count = 2;
+}
+
+message CourierAttendanceTime {
+    string id = 1;
+    string courier_id = 2;
+    string started_time = 3;
+}
+
+message CourierAttendanceTimeId {
+    string id = 1;
+}
+
+message CouriersArchiveReport {
+    string id = 1;
+    string phone = 2;
+    string first_name = 3;
+    string last_name = 4;
+    string created_at = 5;
+    string deleted_at = 6;
+}
+
+message CouriersArchiveReportResponse {
+    repeated CouriersArchiveReport reports = 1;
+    uint32 count = 2;
+}
+
+message CourierBranch {
+    string courier_id = 1;
+    string from = 2;
+    string to = 3;
+}
+
+message CourierBranchId {
+    string id = 1;
+}
+
+message AddCouriersMaxOrders {
+    string courier_id = 1;
+    string branch_id = 2;
+    string shipper_id = 3;
+    int32 amount = 4;
+}
+
+message AddCouriersMaxOrdersResponse {
+    int32 amount = 1;
+}
+
+message GetAllCouriersByBranchesRequest {
+    string shipper_id = 1;
+}
+
+message GetAllCouriersByBranchesResponse {
+    repeated ByBranch branches = 1;
+    int64 finished = 2;
+    int64 all = 3;
+    int64 on_road = 4;
+}
+
+message ByBranch {
+    string id = 1;
+    string name = 2;
+    repeated CouriersByBranch couriers = 3;
+}
+
+message CouriersByBranch {
+    string id = 1;
+    string phone = 2;
+    string first_name = 3;
+    string last_name = 4;
+}
+
+message GetOnlineCouriersRequest {
+	uint64 limit = 1;
+    uint64 page = 2;
+	string shipper_id = 3;
+    string branch_id= 4;
+}
+
+message GetOnlineCourier {
+	string courier_type_id = 1;
+	string courier_type_name = 2;
+	uint64 online = 3;
+    uint64 offline = 4;
+    uint64 total = 5;
+    string id =6;
+}
+
+message GetOnlineCouriersResponse {
+    repeated GetOnlineCourier online_couriers = 1;
+}

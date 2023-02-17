@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package genproto;
+
+option go_package="genproto/user_service";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+import "branch.proto";
+
+service CustomerAddressService {
+    rpc Create(CustomerAddress) returns (CustomerAddressId) {}
+    rpc Update(CustomerAddress) returns (google.protobuf.Empty) {}
+    rpc Get(CustomerAddressId) returns(CustomerAddress) {}
+    rpc GetAll(GetAllCustomerAddressesRequest) returns(GetAllCustomerAddressesResponse) {}
+    rpc Delete(CustomerAddressId) returns(google.protobuf.Empty) {}
+}
+
+message CustomerAddress {
+    string id = 1;
+    string customer_id = 2;
+    string name = 3;
+    string address = 4;
+    Location location = 5;
+    google.protobuf.StringValue apartment = 6;
+    google.protobuf.StringValue building = 7;
+    google.protobuf.StringValue floor = 8;
+    google.protobuf.StringValue description = 9;
+}
+
+message CustomerAddressId {
+    string id = 1;
+}
+
+message GetAllCustomerAddressesRequest {
+    uint64 page = 1;
+    uint64 limit = 2;
+    string customer_id = 3;
+}
+
+message GetAllCustomerAddressesResponse {
+    repeated CustomerAddress customer_addresses = 1;
+    uint64 count = 2;
+    double minimal_order_price = 3;
+}

@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package genproto;
+
+import "distributor.proto";
+option go_package="genproto/courier_service";
+
+service DispatcherService {
+    rpc DrawCouriersRoad(DrawCouriersRoadRequest) returns (DrawCouriersRoadResponse) {}
+}
+
+message DrawCouriersRoadRequest {
+    repeated string courier_ids = 1;
+}
+
+message DrawCouriersRoadResponse {
+    repeated CourierRoad courier_roads = 1;
+}
+
+message CourierRoad {
+    string courier_id = 1;
+    repeated Location locations = 2;
+}

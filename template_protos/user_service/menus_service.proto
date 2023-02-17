@@ -1,0 +1,14 @@
+syntax="proto3";
+
+package genproto;
+option go_package="genproto/user_service";
+import "menus.proto";
+import "google/protobuf/empty.proto";
+
+service MenuService{
+    rpc Create(MenuRequest) returns (MenuId){}
+    rpc Get(GetMenu) returns (GetMenuResponse){}
+    rpc GetAll(GetAllMenusRequest) returns (GetAllMenusResponse){} 
+    rpc Update (UpdateMenuReqest) returns (google.protobuf.Empty){}
+    rpc Delete (GetMenu) returns (google.protobuf.Empty){}
+}

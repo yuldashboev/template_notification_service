@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package genproto;
+
+option go_package="genproto/user_service";
+
+import "region.proto";
+import "google/protobuf/empty.proto";
+
+service RegionService {
+    rpc Create(Region) returns (RegionId) {}
+    rpc Get(RegionId) returns (Region) {}
+    rpc GetAll(GetAllRegionsRequest) returns (GetAllRegionsResponse) {}
+    rpc Update(Region) returns (google.protobuf.Empty) {}
+    rpc Delete(DeleteRegionRequest) returns (google.protobuf.Empty) {}
+}
+

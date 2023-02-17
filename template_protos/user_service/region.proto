@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package genproto;
+option go_package="genproto/user_service";
+
+message Region {
+    string id = 1;
+    string name = 3;
+    bool is_active=4;
+    string shipper_id=5;
+    Locations location = 8;
+    string created_at = 9;
+    string updated_at = 10;
+}
+
+message Locations {
+    double long = 1;
+    double lat = 2;
+}
+
+
+message RegionId {
+    string id = 1;
+    string shipper_id=2;
+}
+
+message GetAllRegionsRequest {
+    uint64 page = 1;
+    uint64 limit = 2;
+    bool only_active=3;
+    string shipper_id=4;
+    string search = 6;
+}
+
+message GetAllRegionsResponse {
+    repeated Region regions = 1;
+    uint64 count = 2;
+}
+
+message DeleteRegionRequest {
+    string id = 1;
+    string shipper_id=2;
+}

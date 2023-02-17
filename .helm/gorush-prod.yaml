@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: gorush-service 
+  name: gorush-service 
+  namespace: prod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gorush-service 
+  template:
+    metadata:
+      labels:
+        app: gorush-service 
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: apps
+                    operator: In
+                    values:
+                      - "true"
+      imagePullSecrets:
+        - name: gitlab-registry
+      containers:
+        - image: gitlab.udevs.io:5050/template/template_user_service/gorush:latest
+          name: gorush-service
+          imagePullPolicy: Always
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gorush-service 
+  namespace: prod
+spec:
+  ports:
+    - name: port-one
+      port: 8088
+      targetPort: 8088
+    - name: port-two
+      port: 9000
+      targetPort: 9000
+    - name: grpc
+      port: 3000
+      targetPort: 3000
+  selector:
+    app: gorush-service
