@@ -4,3 +4,4 @@
 ## TODO:: writing unit tests
 ## TODO:: grafecull shutdown at cmd/main
 ## TODO:: testing ci/cd working fine
+## TODO:: Add Instructions on how to setup this service
